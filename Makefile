@@ -1,33 +1,47 @@
-# Compiler and flags
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/31 17:56:59 by dgutak            #+#    #+#              #
+#    Updated: 2023/07/31 17:57:03 by dgutak           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iminilibx-linux 
-LDFLAGS = -Lminilibx-linux -lmlx -lXext -lX11 -lm
+LDFLAGS = -Lminilibx-linux -L./libft  -lmlx -lXext -lX11 -lm -lft
 
-# Project name and source files
+
 NAME = fdf
-SRCS = main.c read.c get_next_line_utils.c get_next_line.c
+LIBFT	=	./libft/libft.a
+SRCS = main.c read.c get_next_line_utils.c get_next_line.c draw.c utils.c error.c transform.c
 
-# Object files and dependencies
+
 OBJS = $(SRCS:.c=.o)
 
-# Rule to build the project
+
 all: $(NAME)
+	rm -f $(OBJS)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS) -g
-# Rule to compile source files into object files
+	make -C ./libft/
+	$(CC) $(CFLAGS) $(LIBFT) -o $(NAME) $(OBJS) $(LDFLAGS)
+
 .c.o:
 	cc $(CFLAGS) -c $< -o $(<:.c=.o) -I ./include
 
-# Rule to clean object files
+
 clean:
 	rm -f $(OBJS)
 
-# Rule to clean object files and the executable
+
 fclean: clean
 	rm -f $(NAME)
 
-# Rule to recompile everything
+
 re: fclean all
 
 .PHONY: all clean fclean re
