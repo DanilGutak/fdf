@@ -6,7 +6,7 @@
 /*   By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 08:40:32 by dgutak            #+#    #+#             */
-/*   Updated: 2023/07/31 18:03:35 by dgutak           ###   ########.fr       */
+/*   Updated: 2023/09/21 16:00:21 by dgutak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	print_menu(t_data data)
 {
 	char	*menu;
 
-	menu = "ARROWS: move";
-	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 20, 0x03fcFF, menu);
-	menu = "WS: rotation; AD: Z-scale; +, -: zoom";
-	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 35, 0x03fcFF, menu);
+	menu = "1: isometric/plane mode; ARROWS: move";
+	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 20, 0xffc589, menu);
+	menu = "AD: Z-scale; NUMPAD +,-: zoom";
+	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 35, 0xffc589, menu);
 	menu = "UO: z-rotation; IK: y-rotation; JL: x-rotation";
-	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 50, 0x03fcFF, menu);
+	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 50, 0xffc589, menu);
 	menu = "R: reset image, ESC: exit";
-	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 65, 0x03fcFF, menu);
+	mlx_string_put(data.mlx_ptr, data.win_ptr, 10, 65, 0xffc589, menu);
 }
 
 void	bresenham(t_data *data, t_point p1, t_point p2)
@@ -44,8 +44,7 @@ void	bresenham(t_data *data, t_point p1, t_point p2)
 	float	max;
 	int		index;
 
-	transformation(data, &p1);
-	transformation(data, &p2);
+	transformation(data, &p1, &p2);
 	ex = p2.x - p1.x;
 	ey = p2.y - p1.y;
 	max = fmax(fabs(ex), fabs(ey));
@@ -88,7 +87,7 @@ void	draw_net(t_data *data)
 
 void	draw_image(t_data *data)
 {
-	ft_new_image(data, 1000, 1000);
+	ft_new_image(data, 1200, 800);
 	draw_net(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img->reference,
 		0, 0);

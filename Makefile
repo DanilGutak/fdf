@@ -6,7 +6,7 @@
 #    By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 17:56:59 by dgutak            #+#    #+#              #
-#    Updated: 2023/07/31 17:57:03 by dgutak           ###   ########.fr        #
+#    Updated: 2023/09/19 11:20:17 by dgutak           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJS = $(SRCS:.c=.o)
 
 
 all: $(NAME)
-	rm -f $(OBJS)
+	
 
 $(NAME): $(OBJS)
 	make -C ./libft/

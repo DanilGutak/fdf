@@ -6,7 +6,7 @@
 /*   By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 11:04:34 by dgutak            #+#    #+#             */
-/*   Updated: 2023/07/02 12:11:26 by dgutak           ###   ########.fr       */
+/*   Updated: 2023/09/12 09:58:31 by dgutak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ int	ft_printhex(unsigned long n, char format)
 		ret += ft_putchar_fd(buffer[--i], 1);
 	return (ret);
 }
-	

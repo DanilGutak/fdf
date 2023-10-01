@@ -6,7 +6,7 @@
 /*   By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 09:56:25 by dgutak            #+#    #+#             */
-/*   Updated: 2023/07/31 18:05:20 by dgutak           ###   ########.fr       */
+/*   Updated: 2023/09/21 15:14:39 by dgutak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	rotatex(t_point *point, t_data *data)
 	float	new_y;
 	float	new_z;
 
+	point->x *= data->zoom;
+	point->y *= data->zoom;
+	point->z *= data->z_value;
 	cos_angle = cos(data->xangle);
 	sin_angle = sin(data->xangle);
 	new_y = point->y * cos_angle - point->z * sin_angle;
@@ -57,22 +60,27 @@ void	rotatez(t_point *point, t_data *data)
 	point->y = new_y;
 }
 
-void	transformation(t_data *data, t_point *p1)
+void	transformation(t_data *data, t_point *p1, t_point *p2)
 {
-	p1->x *= data->zoom;
-	p1->y *= data->zoom;
-	p1->z *= data->z_value;
-	if (p1->z > 0)
-		data->color = 0xFFFF00;
-	else if ((p1->z < 0))
-		data->color = 0x0000FF;
+	if (p1->z > 1 || p2->z > 1)
+		data->color = fmin(0xf826af + (fmax(p1->z, p2->z) - 1) * 400, 0xFFFFFF);
 	else
-		data->color = 0xFFFFFF;
+		data->color = 0x9afd6f;
 	rotatex(p1, data);
 	rotatey(p1, data);
 	rotatez(p1, data);
-	p1->x = (p1->x - p1->y) * cos(data->angle);
-	p1->y = (p1->x + p1->y) * sin(data->angle) - p1->z;
+	rotatex(p2, data);
+	rotatey(p2, data);
+	rotatez(p2, data);
+	if (data->mode == 0)
+	{
+		p1->x = (p1->x - p1->y) * cos(data->angle);
+		p1->y = (p1->x + p1->y) * sin(data->angle) - p1->z;
+		p2->x = (p2->x - p2->y) * cos(data->angle);
+		p2->y = (p2->x + p2->y) * sin(data->angle) - p2->z;
+	}
 	p1->x += data->mover - data->movel;
 	p1->y += data->moved - data->moveu;
+	p2->x += data->mover - data->movel;
+	p2->y += data->moved - data->moveu;
 }

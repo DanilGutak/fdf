@@ -6,7 +6,7 @@
 /*   By: dgutak <dgutak@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:13:21 by dgutak            #+#    #+#             */
-/*   Updated: 2023/07/23 17:31:37 by dgutak           ###   ########.fr       */
+/*   Updated: 2023/09/12 11:52:37 by dgutak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*take_line(char *buf)
 
 	z = 0;
 	if (!buf[z])
-		return (NULL);
+		return (ft_calloc(1, sizeof(char)));
 	while (buf[z] && buf[z] != '\n')
 		z++;
 	ret = ft_calloc(z + 2, sizeof(char));
@@ -66,6 +66,15 @@ char	*readfunk(int fd, char *buf)
 	while (!ft_strchr(buf, '\n') && readen != 0)
 	{
 		readen = read(fd, temp, BUFFER_SIZE);
+		if (readen < 0)
+		{
+			if (buf != NULL)
+			{
+				free(buf);
+				buf = 0;
+			}
+			return (free(temp), NULL);
+		}
 		temp[readen] = '\0';
 		buf = ft_strjoin(buf, temp);
 	}
@@ -77,8 +86,6 @@ char	*get_next_line(int fd)
 	static char	*buffer[OPEN_MAX];
 	char		*ret;
 
-	if (read(fd, 0, 0) < 0)
-		return (free(buffer[fd]), buffer[fd] = 0, NULL);
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buffer[fd] = readfunk(fd, buffer[fd]);
